@@ -1,0 +1,78 @@
+********** query of branch_master ***********
+INSERT INTO branch_master (name) 
+SELECT DISTINCT BRANCH_NAME FROM master_data
+WHERE id != 0
+
+*********************************
+con.query("SELECT DISTINCT Prod_Grp2 FROM `master_data` m, `products` p WHERE m.Prod_Grp1=p.name GROUP BY p.name", function (error, result) {
+        if (error) return res.status(401).send("Data not fetched")
+    res.send(result);
+    })
+
+
+******************* Find All Products ***********************
+const sendData = [
+        [
+            "ABC",
+            5
+        ],
+        [
+            "PQR",
+            5
+        ],
+        [
+            "XYZ",
+            5
+        ]
+    ];
+
+    con.query("INSERT INTO products (name, parent_id) VALUES ?", [sendData], function (error1, result1) {
+        if (error1) return res.status(401).send("Unable to add to product")
+
+        return res.send("Data added...");
+
+    })
+
+    return res.send("All Data added..");
+
+****************** DISTINCT on 4 fields ********************
+SELECT DISTINCT Prod_Grp1,Prod_Grp2, Prod_Grp3, Prod_Grp4 FROM `centuryply` ORDER BY Prod_Grp1 ASC
+
+*******************************************************
+SELECT LOB, Branch_Name, Year, Month, InvoiceDt, Billed_Amount,Prod_Grp1, Prod_Grp2, Prod_Grp3, Prod_Grp4 FROM `master_data` WHERE LOB IN ('NAP', 'LAM', 'DV', 'PANEL') AND Branch_Name IN ('North-LudhianaVe', 'North-Ludhiana')
+
+************************** api_data from master_data ************************
+
+SELECT LOB, Branch_Name,Prod_Grp1, Prod_Grp2, Prod_Grp3, Prod_Grp4, DATE_FORMAT(InvoiceDt,'%Y') Year,DATE_FORMAT(InvoiceDt,'%m') month, sum(Billed_Amount) FROM `master_data` WHERE LOB IN ('NAP', 'LAM', 'DV', 'PANEL') AND Branch_Name IN ('North-LudhianaVe', 'North-Ludhiana')
+group by LOB, Branch_Name,Prod_Grp1, Prod_Grp2, Prod_Grp3, Prod_Grp4,  Year, month
+
+
+
+
+
+
+SELECT LOB, Branch_Name,Prod_Grp1, Prod_Grp2, Prod_Grp3, Prod_Grp4, Billed_Qty_PCs,sum(Billed_Qty_PCs), Billed_Qty_NA,sum(Billed_Qty_NA), DATE_FORMAT(InvoiceDt,'%Y') Year,DATE_FORMAT(InvoiceDt,'%m') month, sum(Billed_Amount) FROM `master_data` WHERE LOB IN ('NAP', 'LAM', 'DV', 'PANEL') AND Branch_Name IN ('North-LudhianaVe', 'North-Ludhiana')
+group by LOB, Branch_Name,Prod_Grp1, Prod_Grp2, Prod_Grp3, Prod_Grp4,  Year, mont
+
+
+*********** FInal data api ****************
+con.query("SELECT LOB, Branch_Name,Prod_Grp1, Prod_Grp2, Prod_Grp3, Prod_Grp4,Billed_Qty_PCs,sum(Billed_Qty_PCs), Billed_Qty_NA,sum(Billed_Qty_NA), DATE_FORMAT(InvoiceDt,'%Y') Year,DATE_FORMAT(InvoiceDt,'%m') month, sum(Billed_Amount) FROM `master_data` WHERE LOB IN ? AND Branch_Name IN ? group by LOB, Branch_Name,Prod_Grp1, Prod_Grp2, Prod_Grp3, Prod_Grp4,  Year, month", [[lobArray], [branchArray]], (error, result) => {
+        // if (error) return res.status(401).send("Data not fetched")
+        //console.log(brachesssss);
+        if (error) return res.send(error)
+
+
+        res.send(result)
+    })
+
+
+
+
+
+
+
+
+
+
+
+
