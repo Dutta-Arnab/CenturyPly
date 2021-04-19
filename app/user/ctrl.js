@@ -6,6 +6,7 @@ const { con } = require('../../config/db')
 const validateInput = (data) => {
     const schema = Joi.object({
         email: Joi.string().email().required(),
+        password: Joi.string().min(8).max(255).required(),
         name:Joi.string().min(2).max(255).required(),
         isActive: Joi.boolean().required(),
         role_id: Joi.number().required(),
@@ -24,6 +25,7 @@ module.exports.createUser = (req, res) => {
     //User object create
     var userData = {
         email: req.body.email,
+        password:req.body.password,
         name: req.body.name,
         isActive: req.body.isActive,
     };

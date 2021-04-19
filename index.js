@@ -6,7 +6,7 @@ const userRoute = require('./app/user')
 const prodRoute = require('./app/prod')
 const authRoute= require('./app/auth');
 const dataRoute= require('./app/data');
-const { isLoggedIn, isAdmin } = require('./app/middleware/permision');
+const { isLoggedIn } = require('./app/middleware/permision');
 
 // create express app
 const app = express();
@@ -14,6 +14,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get('/', (req, res) => {
+  return res.send("Home nroute...");
+})
 
 app.use('/api/auth', authRoute)
 app.use(isLoggedIn)
