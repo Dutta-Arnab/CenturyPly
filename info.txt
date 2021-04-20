@@ -1,3 +1,5 @@
+start>>>>>> npm run dev
+
 ********** query of branch_master ***********
 INSERT INTO branch_master (name) 
 SELECT DISTINCT BRANCH_NAME FROM master_data
