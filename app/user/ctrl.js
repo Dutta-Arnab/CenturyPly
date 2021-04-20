@@ -3,6 +3,8 @@ const { v4: uuidv4 } = require('uuid');
 
 const { con } = require('../../config/db')
 
+//password added
+
 const validateInput = (data) => {
     const schema = Joi.object({
         email: Joi.string().email().required(),
