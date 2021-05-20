@@ -6,6 +6,7 @@ const userRoute = require('./app/user')
 const prodRoute = require('./app/prod')
 const authRoute= require('./app/auth');
 const dataRoute= require('./app/data');
+const logInRoute= require('./app/logIn');
 const { isLoggedIn } = require('./app/middleware/permision');
 
 // create express app
@@ -19,11 +20,12 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/auth', authRoute)
-app.use(isLoggedIn)
+//app.use(isLoggedIn)
 app.use('/api/role', roleRoute)
 app.use('/api/user', userRoute)
 app.use('/api/prod', prodRoute)
 app.use('/api/data',dataRoute)
+app.use('/api/logIn',logInRoute)
 //app.use('/api/middleware', middlewareRoute)
 
 // Setup server port

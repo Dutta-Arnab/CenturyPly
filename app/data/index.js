@@ -5,6 +5,6 @@ const router = express.Router();
 const {data}=require('../data/ctrl')
 const {isLoggedIn}=require('../middleware/permision')
 
-router.post('/',isLoggedIn,data)
+router.get("/", isLoggedIn, data);
 
-module.exports=router
+module.exports=router;

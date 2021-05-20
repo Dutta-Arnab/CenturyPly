@@ -22,6 +22,17 @@ module.exports.findAllBranches = (req, res) => {
     })
 }
 
+module.exports.findAllTerritory = (req, res) => {
+    con.query("Select * from territory_master", function (error, result) {
+        if (error) {
+            return res.status(401).send("Data not fetched")
+        }
+        else {
+            res.send(result)
+        }
+    })
+}
+
 module.exports.findAllProducts = (req, res) => {
 
     con.query("SELECT DISTINCT Prod_Grp1 FROM `master_data`", function (error, result) {

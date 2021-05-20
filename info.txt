@@ -68,13 +68,69 @@ con.query("SELECT LOB, Branch_Name,Prod_Grp1, Prod_Grp2, Prod_Grp3, Prod_Grp4,Bi
     })
 
 
+*********** findAllRole *************
+Select role.id, role.name, lob_master.id as lob_id, lob_master.lob as lob, branch_master.id, branch_master.name as branch from role JOIN lob_master JOIN branch_master on role.lob_id=lob.id AND role.branches_id=branch_master.id
+
+*********** Insert to role_lob table ***********
+INSERT INTO `role_lob` (`id`, `role_id`, `lob_id`) VALUES (NULL, '1', '5'), (NULL, '1', '4');
+
+******************* get all role details ******************
+SELECT DISTINCT r.id as Role_id, r.name as Role_Name, lm.lob as LOB_Name, bm.name as Branch_Name, tm.territory as Territory_Name FROM role r JOIN role_lob rl ON r.id=rl.role_id JOIN role_branch rb ON r.id=rb.role_id JOIN role_territory rt ON r.id=rt.role_id JOIN lob_master lm ON rl.lob_id=lm.id JOIN branch_master bm ON rb.branch_id=bm.id JOIN territory_master tm ON rt.territory_id=tm.id
+
+
+SELECT r.id, r.name,lm.lob FROM role r join role_lob rl ON r.id=rl.role_id JOIN lob_master lm ON rl.lob_id=lm.id WHERE r.id=1 UNION ALL 
+SELECT r.id, r.name,bm.name FROM role r join role_branch rb ON r.id=rb.role_id JOIN branch_master bm ON rb.branch_id=bm.id WHERE r.id=1
+
+
+SELECT (SELECT r.id as Role_id, r.name as Role_Name,lm.lob as LOB FROM role r join role_lob rl ON r.id=rl.role_id JOIN lob_master lm ON rl.lob_id=lm.id WHERE r.id=3) as LOB_Details,
+(SELECT r.id as Role_id, r.name as Role_Name,bm.name as Branches FROM role r join role_branch rb ON r.id=rb.role_id JOIN branch_master bm ON rb.branch_id=bm.id WHERE r.id=3) as Branch_Details
+
+
+SELECT 
+LOB_Details.Role_id,
+LOB_Details.Role_Name,
+LOB_Details.LOB,
+Branch_Details.Branches
+(SELECT r.id as Role_id, r.name as Role_Name,lm.lob as LOB FROM role r join role_lob rl ON r.id=rl.role_id JOIN lob_master lm ON rl.lob_id=lm.id WHERE r.id=3) as LOB_Details INNER JOIN
+(SELECT r.id as Role_id, r.name as Role_Name,bm.name as Branches FROM role r join role_branch rb ON r.id=rb.role_id JOIN branch_master bm ON rb.branch_id=bm.id WHERE r.id=3) as Branch_Details
+ON LOB_Details.Role_id= Branch_Details.Role_id
+
+******************* get all user details ******************
+SELECT u.id, u.name, u.email, u.Designation,u.role_id, r.name as Role_Name, lm.lob as LOB_Name, bm.name as Branch_Name, tm.territory as Terrioy_Name FROM user u JOIN role r on u.role_id=r.id JOIN role_lob rl ON r.id=rl.role_id JOIN role_branch rb ON r.id=rb.role_id JOIN role_territory rt ON r.id=rt.role_id JOIN lob_master lm ON rl.lob_id=lm.id JOIN branch_master bm ON rb.branch_id=bm.id JOIN territory_master tm ON rt.territory_id=tm.id
 
 
 
+SELECT id, name, json_extract(lob, '$') as LOB FROM `role` WHERE id=1
+
+SELECT id, name, JSON_TABLE(role.lob, "$[*].id" COLUMNS(Value INT PATH "$")) FROM role WHERE id=1
 
 
+******************* NodeMailer ********************
+var nodemailer = require('nodemailer');
 
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'sriyank.siddhartha@gmail.com',
+    pass: 'xxxx'
+  }
+});
 
+var mailOptions = {
+  from: 'sriyank.siddhartha@gmail.com',
+  to: 'smartherd@gmail.com, sriyank@smartherd.com',
+  subject: 'Sending Email using Node.js',
+  text: `Hi Smartherd, thank you for your nice Node.js tutorials.
+          I will donate 50$ for this course. Please send me payment options.`
+  // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'        
+};
 
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
 
 

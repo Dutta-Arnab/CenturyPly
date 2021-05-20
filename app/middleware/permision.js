@@ -13,6 +13,8 @@ module.exports.isLoggedIn = (req, res, next) => {
         //this is just created another field named "currentUser" in res, in next phase we can catch this data by (res.currentUser)
         res.currentUser = decoded
 
+        //console.log("DECODED-----------",decoded);
+
         if (decoded) next()
 
     } catch (error) {
