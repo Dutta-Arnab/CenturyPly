@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const router = express.Router();
 
-const { createRole, findAllRole, findRoleById, roleDetails,updateRole, deleteRole } = require('../role/ctrl');
+const { createRole, findAllRole, findRoleById,updateRole, deleteRole } = require('../role/ctrl');
 const { isAdmin, isLoggedIn } = require('../middleware/permision');
 const { route } = require("../user");
 
@@ -14,9 +14,6 @@ router.get('/', isLoggedIn,findAllRole);
 
 // Retrieve a single Role with id
 router.get('/:id', isLoggedIn, findRoleById);
-
-// Retrieve a single role details
-router.get('/all/:id', roleDetails);
 
 // Update a Role with id
 router.put('/:id',isLoggedIn, updateRole);

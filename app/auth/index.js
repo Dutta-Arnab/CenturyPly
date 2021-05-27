@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
 const router = express.Router();
-const { logIn, mail, otpPass } = require('../auth/ctrl');
+const { logIn, verifyMail, setNewPass } = require('../auth/ctrl');
 
-router.post('/', logIn);
+router.get('/verifymail', verifyMail);
 
-router.get('/', mail);
+router.post('/verifyotp', setNewPass);
 
-router.post('/otp', otpPass);
+router.post('/login', logIn);
 
 module.exports = router
